@@ -1,2 +1,4 @@
 *.zip
 unzipped/
+venv/
+*.ipynb_checkpoints*
