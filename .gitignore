@@ -2,3 +2,4 @@
 unzipped/
 venv/
 *.ipynb_checkpoints*
+key/

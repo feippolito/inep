@@ -2,10 +2,14 @@ import zipfile
 import os
 from pyunpack import Archive
 
-zip_files = []
-rar_files = []
+rar_files, zip_files = [], []
 
-for dirpath, subdirs, files in os.walk("./unzipped"):
+try:
+  subset = sys.argv[1]
+except Exception as e:
+  raise ValueError('Pass folder to save as parameter')
+
+for dirpath, subdirs, files in os.walk("./unzipped/{subset}"):
   for f in files:
     if f.endswith('.zip'):
       zip_files.append(os.path.join(dirpath, f))
