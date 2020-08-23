@@ -25,6 +25,13 @@ except Exception as e:
 
 # create subset folder inside unzipped
 unzipped_path = f'data/unzipped/{subset}/'
+
+if not os.path.exists('data/unzipped/'):
+  os.mkdir('data/unzipped/')
+
+if not os.path.exists(unzipped_path):
+  os.mkdir(unzipped_path)
+
 zipped_path = f"data/zipped/{subset}"
 create_path(unzipped_path)
 

@@ -1,23 +1,24 @@
+make vm-setup:
+	sudo apt update
+	sudo apt-get update
+	sudo apt-get install python3.8
+	sudo apt install python3-pip
+	pip3 install --upgrade pip
+	pip3 install -r requirements.txt
+	sudo pip3 install patool
+	sudo apt install unrar
+	gcloud auth login
+
 make superior:
-	chmod +x data/zipped/superior/donwload.sh
-	data/zipped/superior/donwload.sh
-
-	mv *.zip data/zipped/superior/
-
+	python3 src/data-pipeline/download-inep.py "superior"
 	python3 src/data-pipeline/unzip-downloaded.py "superior"
 	python3 src/data-pipeline/unzip-data.py "superior"
 	python3 src/data-pipeline/rename-files.py "superior"
 	python3 src/data-pipeline/create-populate-bucket.py "superior"
-	rm -d data/unzipped/superior
+	rm -dr data/unzipped/superior
 
 make censo-escolar:
-	chmod +x data/zipped/censo-escolar/donwload.sh
-	data/zipped/censo-escolar/donwload.sh
-
-	timeout 3
-
-	mv *.zip data/zipped/censo-escolar/
-
+	python3 src/data-pipeline/download-inep.py "censo-escolar"
 	python3 src/data-pipeline/unzip-downloaded.py "censo-escolar"
 	python3 src/data-pipeline/unzip-data.py "censo-escolar"
 	python3 src/data-pipeline/rename-files.py "censo-escolar"

@@ -1,12 +1,11 @@
 import os
 import sys
 
-# try:
-#   subset = sys.argv[1]
-# except Exception as e:
-#   raise ValueError('Pass folder to save as parameter')
+try:
+  subset = sys.argv[1]
+except Exception as e:
+  raise ValueError('Pass folder to save as parameter')
 
-subset = 'censo-escolar'
 
 for dirpath, subdirs, files in os.walk(f"./data/unzipped/{subset}"):
   for f in files:
