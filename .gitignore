@@ -1,4 +1,5 @@
-data/*.zip
+data/**
+!data/links
 *.ipynb_checkpoints*
 key/**
 *.zip

@@ -60,4 +60,4 @@ for root, dirs, files in os.walk(zipped_path, topdown = False):
       os.remove(zip_file)
 
     except:
-      print(f'Failted {zip_file}')
+      print(f'Failed {zip_file}')
