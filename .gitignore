@@ -1,5 +1,5 @@
 *.zip
-unzipped/
+data/
 venv/
 *.ipynb_checkpoints*
 key/

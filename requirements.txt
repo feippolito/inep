@@ -2,3 +2,5 @@ pandas
 unrar
 pandas_gbq
 gclient-service-account-auth
+pyunpack
+patool

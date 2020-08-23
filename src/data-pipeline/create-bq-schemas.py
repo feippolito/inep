@@ -21,12 +21,13 @@ for dirpath, subdirs, files in os.walk("./unzipped/superior"):
       absolute_path = os.path.join(dirpath, f)
       tablename = f.split('.')[0]
       TABLE = f'{subset}.{tablename}'
-      print(TABLE)
+      
       try:
         df = pd.read_csv(absolute_path, nrows=0, sep = '|', encoding = "ISO-8859-1")
-          pandas_gbq.to_gbq(df, TABLE,
-          project_id=PROJECT_ID,
-          credentials=CREDENTIALS,
-          if_exists='fail')
+        pandas_gbq.to_gbq(df, TABLE,
+        project_id=PROJECT_ID,
+        credentials=CREDENTIALS,
+        if_exists='fail')
+        print(TABLE, '- success')
       except:
         print(f'Could not create {TABLE}')

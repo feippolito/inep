@@ -1,9 +1,0 @@
-http://download.inep.gov.br/microdados/microdados_educacao_superior_2018.zip
-http://download.inep.gov.br/microdados/microdados_educacao_superior_2017.zip
-http://download.inep.gov.br/microdados/microdados_censo_superior_2016.zip
-http://download.inep.gov.br/microdados/microdados_censo_superior_2015.zip
-http://download.inep.gov.br/microdados/microdados_censo_superior_2014.zip
-http://download.inep.gov.br/microdados/microdados_censo_superior_2013.zip
-http://download.inep.gov.br/microdados/microdados_censo_superior_2012.zip
-http://download.inep.gov.br/microdados/microdados_censo_superior_2011.zip
-http://download.inep.gov.br/microdados/microdados_censo_superior_2010.zip
