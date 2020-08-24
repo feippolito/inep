@@ -1,5 +1,6 @@
 import os
 import sys
+import re
 
 try:
   subset = sys.argv[1]
@@ -15,7 +16,9 @@ for dirpath, subdirs, files in os.walk(f"./data/unzipped/{subset}"):
        f.endswith('.TXT')  or f.endswith('.txt'):
 
       ano = dirpath.split('/')[4].split('_')[-1]
-      new_name = f'{ano}_{f}'.replace(' ','').encode("ascii", "ignore").decode()
+      fname, extension = f.split('.')
+      fname = re.sub('[^A-Za-z0-9]+', '', fname)
+      new_name = f'{ano}_{fname}.{extension}'.replace(' ','').encode("ascii", "ignore").decode()
       absolute_path = os.path.join(dirpath, f)
 
       new_absolute_path = os.path.join(dirpath,new_name)
