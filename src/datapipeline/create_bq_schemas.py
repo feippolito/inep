@@ -15,7 +15,7 @@ except Exception as e:
   raise ValueError('Subset required')
 
 
-for dirpath, subdirs, files in os.walk("./unzipped/superior"):
+for dirpath, subdirs, files in os.walk(f"data/unzipped/{subset}"):
   for f in files:
     if f.endswith('.CSV') or f.endswith('.csv') and (not f[0].isdigit()):
       absolute_path = os.path.join(dirpath, f)

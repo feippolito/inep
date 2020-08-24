@@ -34,4 +34,4 @@ if __name__ == "__main__":
         command = f'gsutil cp {absolute_path} gs://{PROJECT_ID}-{subset}/{f}'
         os.system(command)
 
-        os.remove(absolute_path)
+        # os.remove(absolute_path)

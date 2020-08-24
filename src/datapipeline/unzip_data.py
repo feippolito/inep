@@ -10,7 +10,6 @@ try:
 except Exception as e:
   raise ValueError('Subset required!')
 
-
 if __name__ == "__main__":
   for dirpath, subdirs, files in os.walk(f"data/unzipped/{subset}"):
     for f in files:

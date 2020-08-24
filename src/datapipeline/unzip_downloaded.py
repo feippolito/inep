@@ -9,7 +9,6 @@ python3 unzip_downloaded.py "subset"
 
 where subset is a directory which contains all the zip files 
 
-
 /inep/zipped/{subset}/*.zip
 """
 
@@ -36,21 +35,21 @@ zipped_path = f"data/zipped/{subset}"
 create_path(unzipped_path)
 
 # walk for in every zipped/{subset} .zip file
-for root, dirs, files in os.walk(zipped_path, topdown = False):
+for root, dirs, files in os.walk(zipped_path):
   for f in files:
     if not f.endswith('.zip'):
       continue
 
     # if f is a .zip
     # create subdirectory in unzipped
+    new_dir = os.path.join(unzipped_path,f.split('.')[0])
+    create_path(new_dir)
+
+    # path to zipped file
+    zip_file = os.path.join(zipped_path,f)
+    print(f'unzipping {os.path.join(new_dir, f)}')
+    
     try:
-      new_dir = os.path.join(unzipped_path,f.split('.')[0])
-      create_path(new_dir)
-
-      # path to zipped file
-      zip_file = os.path.join(zipped_path,f)
-      print(f'unzipping {os.path.join(new_dir, f)}')
-
       #unzip file | zipped/subset/file.zip -> unzziped/subset/new-dir
       with zipfile.ZipFile(zip_file, 'r') as zip_ref:
         zip_ref.extractall(new_dir)
