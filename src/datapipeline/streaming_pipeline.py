@@ -9,16 +9,24 @@ sys.path.append(dirname(__file__))
 from pipe_lib import *
 
 
-def run_pipeline(link, subset, PROJECT_ID, CREDENTIALS):
+def run_pipeline(link, subset, PROJECT_ID, CREDENTIALS, error):
     root_dir = os.path.join('data','unzipped',subset)
+    
+    skip = False
+    try:
+        download_inep(link,subset)
+        unzip_download(subset)
+        unzip_data(subset)
+        rename_files(subset)
+    except:
+        skip = True
 
-    download_inep(link,subset)
-    unzip_download(subset)
-    unzip_data(subset)
-    rename_files(subset)
-    populate_doc_bucket(subset, PROJECT_ID)
-    populate_data_bucket(subset, PROJECT_ID)
-    create_bq_table(subset, PROJECT_ID, CREDENTIALS)
+    if skip:
+        error += [link.split('.')[0].split('/')[-1]]
+    else:
+        populate_doc_bucket(subset, PROJECT_ID)
+        populate_data_bucket(subset, PROJECT_ID)
+        create_bq_table(subset, PROJECT_ID, CREDENTIALS)
 
 def create_path(path):
     if not os.path.exists(path):
@@ -37,18 +45,26 @@ if __name__ == "__main__":
 
     create_bq_dataset(subset, PROJECT_ID, CREDENTIALS)
     create_bucket(subset, PROJECT_ID)
-
+    error = []
     with open(os.path.join('data/links',f'{subset}.txt'),'r') as f:
-        
-        create_path(os.path.join('data', 'zipped'))
-        create_path(os.path.join('data', 'unzipped'))
-        create_path(os.path.join('data', 'zipped', subset))
-        create_path(os.path.join('data', 'unzipped', subset))
 
+        
         lines = f.readlines()
         for link in lines:
-            run_pipeline(link, subset, PROJECT_ID, CREDENTIALS)
+        
+            zipped_path = os.path.join('data', 'zipped')
+            unzipped_path = os.path.join('data', 'unzipped')         
+            create_path(zipped_path)
+            create_path(unzipped_path)
+            create_path(os.path.join(zipped_path, subset))
+            create_path(os.path.join(unzipped_path, subset))
 
-        shutil.rmtree(os.path.join('data', 'zipped' ))
-        shutil.rmtree(os.path.join('data', 'unzipped' ))
-
+            run_pipeline(link, subset, PROJECT_ID, CREDENTIALS, error)
+            
+            shutil.rmtree(zipped_path)
+            shutil.rmtree(unzipped_path)
+    
+    print('\n\n-------------------')
+    print('Links not completed:')
+    for e in error:
+        print(e)

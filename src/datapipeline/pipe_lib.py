@@ -73,12 +73,12 @@ def rename_files(subset):
   unzipped_path = os.path.join('data','unzipped', subset)
   for dirpath, subdirs, files in os.walk(unzipped_path):
     for f in files:
-      if f.endswith('.CSV')  or f.endswith('.csv') or\
-        f.endswith('.pdf')  or f.endswith('.PDF') or\
-        f.endswith('.xlsx') or f.endswith('.XLSX') or\
-        f.endswith('.TXT')  or f.endswith('.txt'):
-
-        ano = dirpath.split('/')[4].split('_')[-1]
+      ano = dirpath.split('/')[3].split('_')[-1]
+      if (f.endswith('.CSV')  or f.endswith('.csv') or  \
+          f.endswith('.pdf')  or f.endswith('.PDF') or  \
+          f.endswith('.xlsx') or f.endswith('.XLSX') or \
+          f.endswith('.xls') or f.endswith('.XLS') or   \
+          f.endswith('.TXT')  or f.endswith('.txt')) and (not f.startswith(f'{ano}_') ):
         fname, extension = f.split('.')
         fname = re.sub('[^A-Za-z0-9-_-]+', '', fname)
         new_name = f'{ano}_{fname}.{extension}'.replace(' ','').encode("ascii", "ignore").decode()
@@ -102,8 +102,9 @@ def populate_doc_bucket(subset, PROJECT_ID):
   print(f'populating bucket {BUCKET_NAME}')
   for dirpath, subdirs, files in os.walk(unzipped_path):
     for f in files:
-      if f.endswith('.pdf')  or f.endswith('.PDF') or\
-         f.endswith('.xlsx') or f.endswith('.XLSX') or\
+      if f.endswith('.xls')  or f.endswith('.XLS')  or \
+         f.endswith('.pdf')  or f.endswith('.PDF')  or \
+         f.endswith('.xlsx') or f.endswith('.XLSX') or \
          f.endswith('.TXT')  or f.endswith('.txt'):
               
         absolute_path = os.path.join(dirpath, f)
