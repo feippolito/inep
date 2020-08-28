@@ -9,7 +9,7 @@ sys.path.append(dirname(__file__))
 from pipe_lib import *
 
 
-def run_pipeline(link, subset, PROJECT_ID, CREDENTIALS, error):
+def run_pipeline(link, subset, PROJECT_ID, CREDENTIALS, error, bq_error):
     root_dir = os.path.join('data','unzipped',subset)
     
     skip = False
@@ -26,7 +26,10 @@ def run_pipeline(link, subset, PROJECT_ID, CREDENTIALS, error):
     else:
         populate_doc_bucket(subset, PROJECT_ID)
         populate_data_bucket(subset, PROJECT_ID)
-        create_bq_table(subset, PROJECT_ID, CREDENTIALS)
+        bq_error = create_bq_table(subset, PROJECT_ID, CREDENTIALS, bq_error)
+
+    return error, bq_error
+
 
 def create_path(path):
     if not os.path.exists(path):
@@ -45,9 +48,10 @@ if __name__ == "__main__":
 
     create_bq_dataset(subset, PROJECT_ID, CREDENTIALS)
     create_bucket(subset, PROJECT_ID)
-    error = []
-    with open(os.path.join('data/links',f'{subset}.txt'),'r') as f:
+    
+    error, bq_error = [], []
 
+    with open(os.path.join('data/links',f'{subset}.txt'),'r') as f:
         
         lines = f.readlines()
         for link in lines:
@@ -59,7 +63,7 @@ if __name__ == "__main__":
             create_path(os.path.join(zipped_path, subset))
             create_path(os.path.join(unzipped_path, subset))
 
-            run_pipeline(link, subset, PROJECT_ID, CREDENTIALS, error)
+            error, bq_error = run_pipeline(link, subset, PROJECT_ID, CREDENTIALS, error, bq_error)
             
             shutil.rmtree(zipped_path)
             shutil.rmtree(unzipped_path)
@@ -67,4 +71,7 @@ if __name__ == "__main__":
     print('\n\n-------------------')
     print('Links not completed:')
     for e in error:
+        print(e)
+    print('')
+    for e in bq_error:
         print(e)

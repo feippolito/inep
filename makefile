@@ -11,6 +11,6 @@ make vm-setup:
 
 make superior:
 	python3 src/datapipeline/streaming_pipeline.py "superior"
-	
-make censo-escolar:
-	python3 src/datapipeline/streaming_pipeline.py "censo-escolar"
+
+make censo_escolar:
+	python3 src/datapipeline/streaming_pipeline.py "censo_escolar"

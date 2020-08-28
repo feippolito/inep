@@ -1,0 +1,5 @@
+bigquery error:
+    inep-286513.censo_escolar.2014_DOCENTES_CO
+    inep-286513.censo_escolar.2011_DOCENTES_CO
+    inep-286513.censo_escolar.2011_DOCENTES_NORDESTE
+    inep-286513.censo_escolar.2010_DOCENTES_NORTE

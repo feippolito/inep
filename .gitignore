@@ -1,4 +1,5 @@
 data/**
+*__pycache__
 !data/links
 *.ipynb_checkpoints*
 key/**

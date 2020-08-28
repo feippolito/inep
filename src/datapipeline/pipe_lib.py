@@ -124,13 +124,13 @@ def populate_data_bucket(subset, PROJECT_ID):
         command = f'gsutil cp {absolute_path} gs://{PROJECT_ID}-{subset}/{f}'
         os.system(command)
 
-def create_bq_table(subset, PROJECT_ID, CREDENTIALS):
+def create_bq_table(subset, PROJECT_ID, CREDENTIALS, bq_error):
   client = bigquery.Client(project=PROJECT_ID, credentials=CREDENTIALS)
   unzipped_path = os.path.join('data','unzipped', subset)
   for dirpath, subdirs, files in os.walk(unzipped_path):
     for filename in files:
-      if filename.endswith('.CSV') or\
-         filename.endswith('.csv') and\
+      if filename.endswith('.CSV') or \
+         filename.endswith('.csv') and \
          (not filename[0].isdigit()):
         table_id = f"{PROJECT_ID}.{subset}.{filename.split('.')[0]}"
 
@@ -139,11 +139,18 @@ def create_bq_table(subset, PROJECT_ID, CREDENTIALS):
             encoding='ISO-8859-1')
 
         uri = f"gs://{PROJECT_ID}-{subset}/{filename}"
-        load_job = client.load_table_from_uri(
-            uri, table_id, job_config=job_config)
-        load_job.result()  # Waits for the job to complete.
-        destination_table = client.get_table(table_id)
-        print("Loaded {} rows.".format(destination_table.num_rows))
+
+        print(uri , ' -> ', table_id)
+        try:
+          load_job = client.load_table_from_uri(
+              uri, table_id, job_config=job_config)
+          load_job.result()  # Waits for the job to complete.
+          destination_table = client.get_table(table_id)
+          print("Loaded {} rows.".format(destination_table.num_rows))
+        except:
+          bq_error += [table_id]
+
+  return bq_error
 
 def create_bq_dataset(subset, PROJECT_ID, CREDENTIALS,
                       DATASET_LOCATION='SOUTHAMERICA-EAST1'):
