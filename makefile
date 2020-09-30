@@ -10,7 +10,9 @@ make vm-setup:
 	gcloud auth login
 
 make superior:
-	python3 src/datapipeline/streaming_pipeline.py "superior"
+	# python3 src/datapipeline/streaming_pipeline.py "superior"
+	python3 src/datapipeline/get_schemas.py "superior"
 
 make censo_escolar:
-	python3 src/datapipeline/streaming_pipeline.py "censo_escolar"
+	# python3 src/datapipeline/streaming_pipeline.py "censo_escolar"
+	python3 src/datapipeline/get_schemas.py "censo_escolar"
