@@ -5,3 +5,4 @@ data/**
 key/**
 *.zip
 .vscode
+src/datapipeline/tests
